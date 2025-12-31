@@ -104,6 +104,9 @@ function renderHome() {
              <button class="restock-btn" data-id="${p.id}" data-name="${p.name}" data-purchase="${p.purchasePrice}" style="background:none; border:none; cursor:pointer; color:var(--primary);" title="Restock">
                 <span class="material-icons-round">add_circle</span>
              </button>
+             <button class="del-prod-btn" data-id="${p.id}" data-name="${p.name}" style="background:none; border:none; cursor:pointer; color:red;" title="Delete Product">
+                <span class="material-icons-round">delete</span>
+             </button>
         </div>
       </div>
     </div>
@@ -134,6 +137,23 @@ function attachHomeEvents() {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       showRestockModal(btn.dataset);
+    });
+  });
+
+  // Delete Product Events
+  document.querySelectorAll('.del-prod-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (confirm(`Are you sure you want to delete "${btn.dataset.name}"?`)) {
+        btn.disabled = true;
+        const res = await api.deleteProduct({ id: btn.dataset.id });
+        if (res.success) {
+          renderPage('home');
+        } else {
+          alert("Error: " + JSON.stringify(res));
+          btn.disabled = false;
+        }
+      }
     });
   });
 }
