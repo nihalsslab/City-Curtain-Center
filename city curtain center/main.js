@@ -14,6 +14,12 @@ const closeModal = document.getElementById('close-modal');
 const navButtons = document.querySelectorAll('.links button');
 
 async function init() {
+  // Auto-connect if URL is hardcoded in api.js
+  if (!localStorage.getItem('gas_api_url') && api.baseUrl && !api.baseUrl.includes("REPLACE")) {
+    console.log("Auto-connecting to hardcoded URL...");
+    api.setBaseUrl(api.baseUrl);
+  }
+
   const savedUrl = localStorage.getItem('gas_api_url');
   if (!savedUrl) {
     showConfigModal();
