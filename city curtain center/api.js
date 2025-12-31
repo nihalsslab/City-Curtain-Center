@@ -65,6 +65,7 @@ export class ApiService {
     async restockProduct(data) { return this.post("restockProduct", data); }
     async updateSale(data) { return this.post("updateSale", data); }
     async deleteSale(data) { return this.post("deleteSale", data); }
+    async deleteProduct(data) { return this.post("deleteProduct", data); }
 }
 
 export const api = new ApiService();
